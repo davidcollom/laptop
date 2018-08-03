@@ -29,6 +29,8 @@ brew 'rbenv-aliases'
 brew 'rbenv-bundler-ruby-version'
 brew 'dos2unix'
 
+brew 'golang'
+
 # Kubernetes tools
 brew 'kube-ps1'
 brew 'kubectx'
@@ -51,5 +53,14 @@ brew 'socat'
 brew 'tree'
 brew 'ossp-uuid'
 
+# Main Applications
 # cask 'virtualbox'
 cask 'iterm2'
+cask 'docker'
+cask 'appcleaner'
+cask 'google-chrome'
+cask 'flux'
+cask 'visual-studio-code'
+cask 'vlc'
+cask 'sequel-pro'
+cask 'dashlane'
