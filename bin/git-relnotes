@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+. set_tool_names
+
+branch=`git branch | "$GREP_CMD" "\*" | "$GNU_SED_CMD" "s/\* //"`
+
+if [[ ! $branch == release* ]] && [[ ! $branch == hotfix* ]] && [[ ! $branch == support* ]]
+then
+    echo "Branch $branch is not a release or support branch. Aborting."
+    exit 1
+fi
+
+if [[ "$branch" =~ ^support/ ]]
+then
+    from_commit=`git describe --abbrev=0`
+else
+    from_commit=master
+fi
+
+git_dir=$(git rev-parse --git-dir)
+repo_dir=$(dirname "$git_dir")
+f="$repo_dir/release-notes.md"
+
+newnotes=`git log --format=format:'- %s (%h %an)' ${from_commit}..HEAD | "$GREP_CMD" -v '^- Merge'`
+
+version=`echo "$branch" | "$GNU_SED_CMD" "s/\(hotfix\|release\|support\)\///"`
+header="Version $version"
+
+if [ -e "$f" ]
+then
+    oldnotes=$(cat "$f")
+else
+    oldnotes=""
+fi
+
+underline=`echo $header | "$GNU_SED_CMD" "s/./-/g"`
+echo "${header}
+${underline}
+
+Released: $(date +"%d %b %Y %H:%M")
+
+${newnotes}
+
+${oldnotes}" > "$f"
+
+# Note the || : construct to avoid the script exiting if no lines are found
+# (a side-effect of set -e)
+#git status --porcelain | "$GREP_CMD" "?? .*release-notes.md" > /dev/null
+
+git add "$f"
+
+if [ -n "$EDITOR" ]
+then
+    # if this is cygwin, and using gvim as your default editor, fiddle the path so it can see the relnotes file
+    if uname | grep -q "^CYGWIN" && echo "${EDITOR}" | grep -q "/gvim.exe$" ; then f=$(cygpath -w "${f}") ; fi
+    "$EDITOR" "$f"
+else
+    unset _ED
+    # try to find an editor; use 'less' as last resort
+    for ITEM in vim vi nano less ; do
+      _ED="$(which ${ITEM} 2>/dev/null)"
+      if [ -n "${_ED}" ] ; then
+        "${_ED}" "$f"
+        break
+      fi
+    done
+fi
+
+git commit -m "Release Notes updated"
+

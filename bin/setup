@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+if [[ $(uname) == 'Darwin' ]] ; then
+  which brew > /dev/null 2>&1
+  if [[ $? -ne 0 ]] ; then
+    echo "Installing Homebrew..."
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  fi
+
+  brew tap homebrew/bundle
+  brew bundle
+else
+  which dnf > /dev/null 2>&1
+  dnf=$?
+  which yum > /dev/null 2>&1
+  yum=$?
+  which apt-get > /dev/null 2>&1
+  apt=$?
+
+  if [[ $dnf -eq 0 ]]; then
+    echo "Installing dependencies..."
+    sudo dnf groupinstall -y 'Development Tools' && sudo dnf install -y curl git irb m4 python-setuptools ruby texinfo bzip2-devel curl-devel expat-devel ncurses-devel zlib-devel perl-Thread-Queue python-devel perl-devel
+  elif [[ $yum -eq 0 ]]; then
+    echo "Installing dependencies..."
+    sudo yum groupinstall -y 'Development Tools' && sudo yum install -y curl git irb m4 python-setuptools ruby texinfo bzip2-devel curl-devel expat-devel ncurses-devel zlib-devel perl-Thread-Queue python-devel perl-devel
+  elif [[ $apt -eq 0 ]]; then
+    echo "Installing dependencies..."
+    sudo apt-get install -y build-essential curl git m4 python-setuptools ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev python-dev
+  else
+    echo "Unsupported OS..."
+    exit 1
+  fi
+
+  which brew > /dev/null 2>&1
+  if [[ $? -ne 0 ]] ; then
+    echo "Installing Linuxbrew..."
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/linuxbrew/go/install)"
+  fi
+  echo -n "Setting up Environment Variables..."
+  echo "export PATH=\"$HOME/.linuxbrew/bin:$PATH\"" >> ~/.bashrc
+  echo "export MANPATH=\"$HOME/.linuxbrew/share/man:$MANPATH\"" >> ~/.bashrc
+  echo "export INFOPATH=\"$HOME/.linuxbrew/share/info:$INFOPATH\"" >> ~/.bashrc
+  export PATH="$HOME/.linuxbrew/bin:$PATH"
+  export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+  export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+  echo "Done"
+
+  brew tap homebrew/bundle
+  brew bundle
+
+fi

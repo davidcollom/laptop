@@ -1,0 +1,55 @@
+tap 'caskroom/cask'
+tap 'johanhaleby/kubetail'
+tap 'garethr/kubeval'
+
+# Core Utils
+brew 'findutils'
+brew 'coreutils'
+brew 'git'
+brew 'git-flow'
+brew 'git-extras'
+brew 'gnu-sed'
+brew 'gnutls'
+brew 'jq'
+brew 'bash'
+brew 'bash-completion'
+brew 'docker-compose'
+brew 'gnupg'
+brew 'ack'
+brew 'moreutils'
+
+# Ruby Stuff
+brew 'ruby-build'
+brew 'cmake'
+brew 'libssh2'
+brew 'rbenv'
+brew 'rbenv-default-gems'
+brew 'rbenv-bundler'
+brew 'rbenv-aliases'
+brew 'rbenv-bundler-ruby-version'
+brew 'dos2unix'
+
+# Kubernetes tools
+brew 'kube-ps1'
+brew 'kubectx'
+brew 'kubernetes-cli'
+brew 'kubernetes-helm'
+brew 'kubetail'
+brew 'kubeval'
+brew 'kompose'
+
+brew 'terraform'
+brew 'terraform_landscape'
+
+# Other Utils
+# brew 'openssh'
+brew 'ssh-copy-id'
+brew 'watch'
+brew 'wget'
+brew 'lynx'
+brew 'socat'
+brew 'tree'
+brew 'ossp-uuid'
+
+# cask 'virtualbox'
+cask 'iterm2'

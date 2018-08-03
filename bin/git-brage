@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+case "${1}" in
+-n|--no-color|--no-colour) \
+    out=`git for-each-ref --sort='-authordate:iso8601' --format='%(refname:short)|%(authordate:relative)|(%(authorname))'  refs/heads refs/remotes | grep -v cx_local`
+    format='%-35s %-15s %s'
+    ;;
+* ) \
+    out=`git for-each-ref --sort='-authordate:iso8601' --format='%1B[0;32m%(refname:short)%1B[m|%1B[1;33m%(authordate:relative)%1B[m|(%(authorname))'  refs/heads refs/remotes | grep -v cx_local`
+    format='%-45s %-25s %s'
+esac
+
+ruby -e "data='${out}'; puts data.split(\"\n\").map{|l| '${format}' % l.split('|')}.join(\"\n\")"
+
+exit 0
