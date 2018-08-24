@@ -1,0 +1,22 @@
+[user]
+	name = David Collom
+	email = david@collom.co.uk
+
+[include]
+    path = ~/.gitconfig-extras
+
+[color]
+    diff=auto
+    status=auto
+    branch=auto
+
+[alias]
+	s = status
+	d = diff
+	ds = diff --staged
+
+[help]
+    autocorrect = 5
+
+[url "https://"]
+    insteadOf = git://

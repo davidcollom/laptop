@@ -1,4 +1,10 @@
 .DEFAULT_GOAL := install
 
 install:
-	@./bin/setup
+	@./scripts/setup
+	scripts/osx.sh
+	$(make) update
+
+update:
+	rsync -avh bin/ ~/bin/
+	rsync -avh config/ ~/
