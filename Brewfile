@@ -1,6 +1,7 @@
 tap 'caskroom/cask'
 tap 'johanhaleby/kubetail'
 tap 'garethr/kubeval'
+tap 'c-bata/kube-prompt'
 
 # Core Utils
 brew 'findutils'
@@ -39,6 +40,7 @@ brew 'kubernetes-helm'
 brew 'kubetail'
 brew 'kubeval'
 brew 'kompose'
+brew 'kube-prompt'
 
 brew 'terraform'
 brew 'terraform_landscape'
